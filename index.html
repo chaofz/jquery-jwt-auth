@@ -26,10 +26,10 @@
           }
         },
         success: function(data) {
-          alert('Hello ' + data.name + '! You successfully accessed to /api/profile.');
+          alert('Hello ' + data.name + '! You have successfully accessed to /api/profile.');
         },
         error: function() {
-          alert("Sorry, you cannot access to /api/profile which is protected.");
+          alert("Sorry, you are not logged in.");
         }
       });
     });
@@ -43,7 +43,7 @@
         },
         success: function(data) {
           localStorage.token = data.token;
-          alert('Got token from server! Token: ' + data.token);
+          alert('Got a token from the server! Token: ' + data.token);
         },
         error: function() {
           alert("Login Failed");

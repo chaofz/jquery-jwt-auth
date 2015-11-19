@@ -16,13 +16,20 @@ app.post('/login', function(req, res) {
     console.log('failed login');
     return;
   }
+  console.log('successful login');
   // We are sending the profile inside the token
-  var token = jwt.sign({ firstname: 'John', lastname: 'Doe'}, secret, { expiresInMinutes: 1 });
+  var token = jwt.sign({ firstname: 'John', lastname: 'Doe'}, secret, { expiresIn: 5 * 60 });
   res.json({ token: token });
 });
 
 // We are going to protect /api routes with JWT
 app.use('/api', expressJwt({secret: secret}));
+
+app.use(function(err, req, res, next){
+  if (err.constructor.name === 'UnauthorizedError') {
+    res.status(401).send('Unauthorized');
+  }
+});
 
 app.get('/api/profile', function (req, res) {
   console.log('user ' + req.user.firstname + ' is calling /api/profile');
