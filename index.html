@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Authentication</title>
+</head>
+
+<body>
+  <div>
+    <button id="test">Test</button>
+    <button id="goodLogin">Good Login</button>
+    <button id="badLogin">Bad Login</button>
+    <button id="logout">Logout</button>
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('#test').click(function() {
+      $.ajax({
+        type: 'GET',
+        url: '/api/profile',
+        beforeSend: function(xhr) {
+          if (localStorage.token) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+          }
+        },
+        success: function(data) {
+          alert('Hello ' + data.name + '! You successfully accessed to /api/profile');
+        }
+      });
+    });
+    $('#goodLogin').click(function() {
+      $.ajax({
+        type: "POST",
+        url: "/login",
+        data: {
+          username: "john.doe",
+          password: "foobar"
+        },
+        success: function(data) {
+          localStorage.token = data.token;
+          alert('Got token from server! Token: ' + data.token);
+        },
+        error: function() {
+          alert("Login Failed");
+        }
+      });
+    });
+    $('#badLogin').click(function() {
+      $.ajax({
+        type: "POST",
+        url: "/login",
+        data: {
+          username: "john.doo",
+          password: "foobar"
+        },
+        success: function(data) {
+          alert("ERROR: it is not supposed to alert");
+        },
+        error: function() {
+          alert("Login Failed");
+        }
+      });
+    });
+    $('#logout').click(function() {
+      localStorage.clear();
+    });
+  });
+  </script>
+</body>
+
+</html>
