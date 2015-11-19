@@ -8,7 +8,7 @@
 
 <body>
   <div>
-    <button id="test">Test</button>
+    <button id="test">Test Loggedin</button>
     <button id="goodLogin">Good Login</button>
     <button id="badLogin">Bad Login</button>
     <button id="logout">Logout</button>
@@ -26,7 +26,10 @@
           }
         },
         success: function(data) {
-          alert('Hello ' + data.name + '! You successfully accessed to /api/profile');
+          alert('Hello ' + data.name + '! You successfully accessed to /api/profile.');
+        },
+        error: function() {
+          alert("Sorry, you cannot access to /api/profile which is protected.");
         }
       });
     });
@@ -52,11 +55,11 @@
         type: "POST",
         url: "/login",
         data: {
-          username: "john.doo",
-          password: "foobar"
+          username: "john.doe",
+          password: "foobarfoobar"
         },
         success: function(data) {
-          alert("ERROR: it is not supposed to alert");
+          alert("ERROR: it is not supposed to alert.");
         },
         error: function() {
           alert("Login Failed");
